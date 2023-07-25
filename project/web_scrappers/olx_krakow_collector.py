@@ -8,17 +8,17 @@ from datetime import datetime
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 driver = webdriver.Chrome()
 
 all_listings = []
 errored_links = []
-all_links = []
+all_links = set()
 
-output_data = "../original_data/olx_krk_original.json"
-output_links = "../original_data/olx_krk_original_links.csv"
-output_errors = "../original_data/olx_krk_original_errors.json"
+output_data = "../original_data/olx/krk_original.json"
+output_links = "../original_data/olx/krk_links.csv"
+output_errors = "../original_data/olx/krk_errors.json"
 
 phrase_to_search = "Mieszkania na wynajem"
 city_to_search = "Kraków"
@@ -27,10 +27,49 @@ city_to_search = "Kraków"
 
 def main():
     innitials()
-
     early_steps()
-    # Quit the driver after the work is done :)
-    current_site_operation()
+    
+    all_links = get_all_links()
+    save_collected_data(what="links")
+    
+    # get actuall data
+    for link in all_links:
+        # open new window        
+        main_chrome_tab = driver.current_window_handle
+        
+        driver.switch_to.new_window()
+        time.sleep(1)
+        
+        driver.get(link)
+        time.sleep(2)
+        
+        try:
+            get_from_olx()
+        except Exception as e:
+            error_details = {
+                            "url": driver.current_url,
+                            "exception": e 
+                            }
+            errored_links.append(error_details)
+        
+        time.sleep(1)
+        driver.close()
+        
+        driver.switch_to.window(main_chrome_tab)
+        
+    save_collected_data()
+    save_collected_data(what="errors")
+
+
+def get_data_of_listing():
+    #click on certain offer
+    time.sleep(1)
+    try:
+        get_from_olx()
+    except Exception as e:
+        error_details = {"url": driver.current_url,
+                             "exception": e}
+        errored_links.append(error_details)
     driver.quit()
     print("Succes without failiure :)")
 
@@ -38,7 +77,7 @@ def main():
 def innitials():
     driver.get("https://olx.pl")
     time.sleep(2)
-    
+        
 
 def early_steps():
     # Step 2 - search for certain thing
@@ -79,12 +118,60 @@ def early_steps():
     submit = driver.find_element(By.CLASS_NAME, "css-wqd0vz")
     submit.click()
     time.sleep(1)
+
+
+def get_all_links():
     
+    counter = 1
+    while True:
+        time.sleep(3)
+        next_page = None
+        
+        try:
+            if driver.find_element(By.CSS_SELECTOR, '[data-cy="pagination-forward"]'):
+                next_page = driver.find_element(By.CSS_SELECTOR, '[data-cy="pagination-forward"]')
+            else:
+                next_page = None
+                
+        except Exception as e:
+            pass
+
+        # classify the link part of offers
+        offers = driver.find_elements(By.CLASS_NAME, "css-1sw7q4x")
+        time.sleep(2)
+        
+        # find out the links
+        links_from_current_site = []
+        for offer in offers:
+            try:
+                link = offer.find_element(By.CLASS_NAME, "css-rc5s2u").get_attribute("href")
+                if link.lstrip("hhtps://www.")[:3] != "olx":
+                    continue
+                links_from_current_site.append(link)
+                all_links.add(link)
+            except:
+                pass
+        print(f"Links on site {counter}: {len(links_from_current_site)}")
+        counter += 1
+
+        if not links_from_current_site:
+            input("No links got at current site: ")
+        
+        if next_page:
+            next_page.click()
+
+        else:
+            break
+            # Go to next page to collect links.
+
+    return all_links
+
+
 def current_site_operation():
     time.sleep(4)
 
     # next page button located
-    next_page = driver.find_element(By.CLASS_NAME, "css-pyu9k9")
+    next_page = driver.find_element(By.CSS_SELECTOR, '[data-cy="pagination-forward"]')
         
     time.sleep(3)
     
@@ -99,8 +186,10 @@ def current_site_operation():
     for offer in offers:
         try:
             link = offer.find_element(By.CLASS_NAME, "css-rc5s2u").get_attribute("href")
+            if link.lstrip("hhtps://www.")[:3] != "olx":
+                continue
             links_from_current_site.append(link)
-            all_links.append(link)
+            all_links.add(link)
         except:
             pass
     
@@ -120,40 +209,12 @@ def current_site_operation():
             save_collected_data()
             finish()
             break
-        
-def iteration_and_window_handle(links_from_current_site):
-    for link in links_from_current_site:
-        if link.lstrip("hhtps://www.")[:3] != "olx":
-            continue
-        # open new window
-        time.sleep(1)
-        main_chrome_tab = driver.current_window_handle
-        driver.switch_to.new_window()
-        time.sleep(1)
-        driver.get(link)
-        time.sleep(2)
-        get_data_of_listing()
-        time.sleep(1)
-        driver.close()
-        time.sleep(1)
-        driver.switch_to.window(main_chrome_tab)
-        time.sleep(1)
-
-
-def get_data_of_listing():
-    #click on certain offer
-    time.sleep(1)
-    try:
-        get_from_olx()
-    except Exception as e:
-        error_details = {"url": driver.current_url,
-                             "exception": e}
-        errored_links.append(error_details)
     
 
 def get_from_olx():
     listing_details = {}
-        
+    
+    time.sleep(1)
     # price of listing
     price = driver.find_element(By.CLASS_NAME, "css-47bkj9")
     listing_details["rent"] = price.text
@@ -168,9 +229,7 @@ def get_from_olx():
 
     listing_details["username"] = username_attr[1]
     listing_details["on_olx_since"] = username_attr[2].lstrip("Na OLX od ")
-    listing_details["last_activity"] = username_attr[3]
-    time.sleep(1)
-    
+    listing_details["last_activity"] = username_attr[3]    
     
     # added date 
     date_of_listing_add = driver.find_element(By.CLASS_NAME, "css-8mfr0h")
@@ -182,7 +241,6 @@ def get_from_olx():
     
     # link
     listing_details["link"] = driver.current_url
-    time.sleep(1)
 
     # description
     description = driver.find_element(By.CLASS_NAME, "css-1m8mzwg")
@@ -202,21 +260,29 @@ def get_from_olx():
     all_listings.append(listing_details)
 
 
-def save_collected_data():
+def save_collected_data(what="data"):
+    
+    if what == "data":
     # write out collected masterdata
-    with open(output_data, "w") as collected_data_destination:
-        json.dump(all_listings, collected_data_destination, indent=2)
+        with open(output_data, "w") as collected_data_destination:
+            json.dump(all_listings, collected_data_destination, indent=2)
     
-    # write out collected all links
-    with open(output_links, 'w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile)
-        for row in all_links:
-            csv_writer.writerow(row)
     
+    if what == "links":
+    # Write out collected all links
+        with open(output_links, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            for link in all_links:
+                # Join the characters of the link to form a single URL string
+                url = ''.join(link)
+                csv_writer.writerow([url])
+
+    
+    if what == "errors":
     # write out errors if ocured
-    if errored_links:
-        with open(output_errors, "w") as occured_errors_destination:
-            json.dump(all_listings, occured_errors_destination, indent=2)
+        if errored_links:
+            with open(output_errors, "w") as occured_errors_destination:
+                json.dump(all_listings, occured_errors_destination, indent=2)
 
 
 def finish():
