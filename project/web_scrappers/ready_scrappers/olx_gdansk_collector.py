@@ -16,9 +16,9 @@ all_listings = []
 errored_links = []
 all_links = set()
 
-output_data = "../original_data/olx/gda_original.json"
-output_links = "../original_data/olx/gda_links.csv"
-output_errors = "../original_data/olx/gda_errors.json"
+output_data = "../../original_data/olx/gda_original.json"
+output_links = "../../original_data/olx/gda_links.csv"
+output_errors = "../../original_data/olx/gda_errors.json"
 
 phrase_to_search = "Mieszkania na wynajem"
 city_to_search = "Gdańsk"
@@ -44,14 +44,17 @@ def main():
         time.sleep(2)
         
         try:
+            # try to get data from olx site
             get_from_olx()
         except Exception as e:
+            # if not, save what actually happend
             error_details = {
                             "url": driver.current_url,
                             "exception": e 
                             }
             errored_links.append(error_details)
         
+        # wait and close new window
         time.sleep(1)
         driver.close()
         
@@ -59,20 +62,6 @@ def main():
         
     save_collected_data()
     save_collected_data(what="errors")
-
-
-def get_data_of_listing():
-    #click on certain offer
-    time.sleep(1)
-    try:
-        get_from_olx()
-    except Exception as e:
-        error_details = {"url": driver.current_url,
-                             "exception": e}
-        errored_links.append(error_details)
-    driver.quit()
-    print("Succes without failiure :)")
-
 
 def innitials():
     driver.get("https://olx.pl")
@@ -166,50 +155,6 @@ def get_all_links():
 
     return all_links
 
-
-def current_site_operation():
-    time.sleep(4)
-
-    # next page button located
-    next_page = driver.find_element(By.CSS_SELECTOR, '[data-cy="pagination-forward"]')
-        
-    time.sleep(3)
-    
-    # classify the link part of offers
-    offers = driver.find_elements(By.CLASS_NAME, "css-1sw7q4x")
-    
-    
-    time.sleep(2)
-
-    
-    links_from_current_site = []
-    for offer in offers:
-        try:
-            link = offer.find_element(By.CLASS_NAME, "css-rc5s2u").get_attribute("href")
-            if link.lstrip("hhtps://www.")[:3] != "olx":
-                continue
-            links_from_current_site.append(link)
-            all_links.add(link)
-        except:
-            pass
-    
-    if not links_from_current_site:
-        input("No links got at current site: ")
-    
-    
-    iteration_and_window_handle(links_from_current_site)
-    
-    while True:
-        try:
-            next_page.click()
-            time.sleep(3)
-            current_site_operation()
-        except Exception as e:
-            print(f"Exception {e} occured!")
-            save_collected_data()
-            finish()
-            break
-    
 
 def get_from_olx():
     listing_details = {}
