@@ -19,9 +19,9 @@ all_listings = []
 errored_links = []
 all_links = set()
 
-output_data = "../original_data/gratka/gda_original.json"
-output_links = "../original_data/gratka/gda_links.csv"
-output_errors = "../original_data/gratka/gda_errors.json"
+output_data = "../original_data/gratka/krk_original.json"
+output_links = "../original_data/gratka/krk_links.csv"
+output_errors = "../original_data/gratka/krk_errors.json"
 
 def main():
     innitials()
@@ -31,7 +31,12 @@ def main():
     save_collected_data(what="links")
     
     # get actuall data
+    counter = 0
     for link in all_links:
+        counter += 1
+        if counter % 50 == 0:
+            print(f"I processed: {counter} offers!")
+            save_collected_data()
         try:
             # try to get data from olx site
             get_from_gratka(site_url=link)
@@ -39,7 +44,6 @@ def main():
             # if not, save what actually happend
             error_details = {
                             "url": link,
-                            "exception": e 
                             }
             errored_links.append(error_details)
         
@@ -50,7 +54,7 @@ def main():
     save_collected_data(what="errors")
 
 def innitials():
-    driver.get("https://gratka.pl/nieruchomosci/mieszkania/gdansk/wynajem")
+    driver.get("https://gratka.pl/nieruchomosci/mieszkania/krakow/wynajem")
     time.sleep(2)
         
 
@@ -106,11 +110,28 @@ def get_all_links():
             time.sleep(2)
             
         else:
-            print("no more links to go to.... /n im leaving this loop")
+            print("no more links to go to.... \n im leaving loop witch collects links")
             break
             # Go to next page to collect links.
 
     return all_links
+
+def read_links_from_csv(file_path):
+    links = []
+
+    try:
+        with open(file_path, 'r', newline='', encoding='utf-8') as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                row_string = ', '.join(row)
+                links.append(row_string)
+
+    except FileNotFoundError:
+        print(f"The file '{file_path}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+    return links
 
 def get_from_gratka(site_url):
     try:
@@ -162,7 +183,6 @@ def get_from_gratka(site_url):
         parameters_deeper = parameters_div.find('ul', class_='parameters__singleParameters')
                 
         for element in parameters_deeper:
-            
             try:
                 key = element.find('span').text
                 if element.find("b", class_= 'parameters__value').text.replace("\n", "").strip():
@@ -177,7 +197,6 @@ def get_from_gratka(site_url):
                 pass
             
             try:
-                print("XD", element)
                 key = element.find('span').text
                 val = element.find("div", class_= 'parameters__value').text.replace("\n", "").strip()
                 listing_details[key] = val
@@ -187,7 +206,7 @@ def get_from_gratka(site_url):
                 pass
     except AttributeError:
         pass
-        
+    
     all_listings.append(listing_details)
 
 

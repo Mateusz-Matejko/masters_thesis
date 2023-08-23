@@ -13,7 +13,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
-driver = webdriver.Chrome()
+# driver = webdriver.Chrome()
 
 all_listings = []
 errored_links = []
@@ -28,15 +28,20 @@ def main():
     early_steps()
     time.sleep(1)
     all_links = get_all_links()
+    driver.quit()
+    
     save_collected_data(what="links")
     
     # get actuall data
-    print(f"All links to proceed: {all_links}")
     counter = 0
+    
+    # all_links = read_links_from_csv(file_path="../original_data/trojmiasto/gda_links.csv")
+
     for link in all_links:
         counter += 1
         if counter % 50 == 0:
-            print("I processed: {counter} offers!")
+            print(f"I processed: {counter} offers!")
+            save_collected_data()
         try:
             # try to get data from olx site
             get_from_trojmiasto(site_url=link)
@@ -66,6 +71,24 @@ def early_steps():
         time.sleep(1)
     except:
         pass
+
+
+def read_links_from_csv(file_path):
+    links = []
+
+    try:
+        with open(file_path, 'r', newline='', encoding='utf-8') as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                row_string = ', '.join(row)
+                links.append(row_string)
+
+    except FileNotFoundError:
+        print(f"The file '{file_path}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+    return links
 
 
 def get_all_links():
