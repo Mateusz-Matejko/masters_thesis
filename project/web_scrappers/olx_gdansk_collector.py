@@ -18,13 +18,12 @@ all_listings = []
 errored_links = []
 all_links = set()
 
-output_data = "../original_data/olx/gda_original.json"
-output_links = "../original_data/olx/gda_links.csv"
-output_errors = "../original_data/olx/gda_errors.json"
+output_data = "../original_data/collected_09_04/olx/gda_original.json"
+output_links = "../original_data/collected_09_04/olx/gda_links.csv"
+output_errors = "../original_data/collected_09_04/olx/gda_errors.json"
 
 phrase_to_search = "Mieszkania na wynajem"
 city_to_search = "Gdańsk"
-
 
 
 def main():
@@ -47,16 +46,13 @@ def main():
         time.sleep(2)
         
         try:
-            # try to get data from olx site
             get_from_olx()
         except Exception as e:
-            # if not, save what actually happend
             error_details = {
                             "url": driver.current_url,
                             }
             errored_links.append(error_details)
         
-        # wait and close new window
         time.sleep(1)
         driver.close()
         
@@ -64,7 +60,20 @@ def main():
         
     save_collected_data()
     save_collected_data(what="errors")
-    print("Data Collected Correctly!")
+    print("Data Collected Correctly")
+
+
+def get_data_of_listing():
+    #click on certain offer
+    time.sleep(1)
+    try:
+        get_from_olx()
+    except Exception as e:
+        error_details = {"url": driver.current_url,
+                             "exception": e}
+        errored_links.append(error_details)
+    driver.quit()
+    print("Succes without failiure :)")
 
 
 def innitials():
@@ -158,7 +167,7 @@ def get_all_links():
             # Go to next page to collect links.
 
     return all_links
-
+    
 
 def get_from_olx():
     listing_details = {}
@@ -195,7 +204,7 @@ def get_from_olx():
     description = driver.find_element(By.CLASS_NAME, "css-1m8mzwg")
     listing_details["description"] = description.text.lstrip("OPIS\n")
     
-    # other options 
+    # other options
     options_element = driver.find_element(By.CLASS_NAME, "css-sfcl1s")
     option_list = options_element.text.split("\n")
     for option in option_list:
@@ -206,11 +215,10 @@ def get_from_olx():
             listing_details[option] = True  # Jeśli nie można podzielić na klucz i wartość, ustaw wartość na True
         except:
             pass
-        
+            
     time.sleep(1)
-
-    all_listings.append(listing_details)
     
+    all_listings.append(listing_details)
 
 
 def save_collected_data(what="data"):
@@ -236,6 +244,12 @@ def save_collected_data(what="data"):
         if errored_links:
             with open(output_errors, "w") as occured_errors_destination:
                 json.dump(errored_links, occured_errors_destination, indent=2)
+
+
+def finish():
+    driver.quit()
+    print("Succes without failiure :)")
+    sys.exit()
     
 
 if __name__ == "__main__":

@@ -13,25 +13,23 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
-# driver = webdriver.Chrome()
+driver = webdriver.Chrome()
 
 all_listings = []
 errored_links = []
 all_links = set()
 
-basic_path ""
-output_data = "../original_data/gratka/gda_original.json"
-output_links = "../original_data/gratka/gda_links.csv"
-output_errors = "../original_data/gratka/gda_errors.json"
+output_data = "../original_data/collected_09_04/gratka/gda_original.json"
+output_links = "../original_data/collected_09_04/gratka/gda_links.csv"
+output_errors = "../original_data/collected_09_04/gratka/gda_errors.json"
 
 def main():
-    # innitials()
-    # early_steps()
-    # time.sleep(1)
-    # all_links = get_all_links()
-    # save_collected_data(what="links")
+    innitials()
+    early_steps()
+    time.sleep(1)
+    all_links = get_all_links()
+    save_collected_data(what="links")
     
-    all_links = read_links_from_csv(file_path="../original_data/gratka/gda_links.csv")
     # get actuall data
     counter = 0
     for link in all_links:

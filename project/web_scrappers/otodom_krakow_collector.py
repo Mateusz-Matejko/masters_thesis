@@ -19,9 +19,9 @@ all_listings = []
 errored_links = []
 all_links = set()
 
-output_data = "../original_data/otodom/krk_original.json"
-output_links = "../original_data/otodom/krk_links.csv"
-output_errors = "../original_data/otodom/krk_errors.json"
+output_data = "../original_data/collected_09_04/otodom/krk_original.json"
+output_links = "../original_data/collected_09_04/otodom/krk_links.csv"
+output_errors = "../original_data/collected_09_04/otodom/krk_errors.json"
 
 def main():
     innitials()

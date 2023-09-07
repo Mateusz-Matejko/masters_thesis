@@ -19,9 +19,9 @@ all_listings = []
 errored_links = []
 all_links = set()
 
-output_data = "../original_data/otodom/gda_original.json"
-output_links = "../original_data/otodom/gda_links.csv"
-output_errors = "../original_data/otodom/gda_errors.json"
+output_data = "../original_data/collected_09_04/otodom/gda_original.json"
+output_links = "../original_data/collected_09_04/otodom/gda_links.csv"
+output_errors = "../original_data/collected_09_04/otodom/gda_errors.json"
 
 def main():
     innitials()
