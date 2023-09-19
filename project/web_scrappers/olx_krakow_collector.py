@@ -16,16 +16,13 @@ all_listings = []
 errored_links = []
 all_links = set()
 
-folder = "collected_09_04"
+folder = "collected_09_19"
 portal = "olx"
 city = "krk"
 
 output_data = f"../original_data/{folder}/{portal}/{city}_original.json"
 output_links = f"../original_data/{folder}/{portal}/{city}_links.csv"
 output_errors = f"../original_data/{folder}/{portal}/{city}_errors.json"
-
-
-
 
 def main():
     innitials()
