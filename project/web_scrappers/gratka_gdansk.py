@@ -19,9 +19,13 @@ all_listings = []
 errored_links = []
 all_links = set()
 
-output_data = "../original_data/collected_09_04/gratka/gda_original.json"
-output_links = "../original_data/collected_09_04/gratka/gda_links.csv"
-output_errors = "../original_data/collected_09_04/gratka/gda_errors.json"
+folder = "collected_09_04"
+portal = "gratka"
+city = "gda"
+
+output_data = f"../original_data/{folder}/{portal}/{city}_original.json"
+output_links = f"../original_data/{folder}/{portal}/{city}_links.csv"
+output_errors = f"../original_data/{folder}/{portal}/{city}_errors.json"
 
 def main():
     innitials()

@@ -16,12 +16,14 @@ all_listings = []
 errored_links = []
 all_links = set()
 
-output_data = "../original_data/collected_09_04/olx/krk_original.json"
-output_links = "../original_data/collected_09_04/olx/krk_links.csv"
-output_errors = "../original_data/olx/collected_09_04/krk_errors.json"
+folder = "collected_09_04"
+portal = "olx"
+city = "krk"
 
-phrase_to_search = "Mieszkania na wynajem"
-city_to_search = "Kraków"
+output_data = f"../original_data/{folder}/{portal}/{city}_original.json"
+output_links = f"../original_data/{folder}/{portal}/{city}_links.csv"
+output_errors = f"../original_data/{folder}/{portal}/{city}_errors.json"
+
 
 
 
