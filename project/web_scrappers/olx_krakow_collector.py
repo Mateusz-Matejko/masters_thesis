@@ -24,6 +24,9 @@ output_data = f"../original_data/{folder}/{portal}/{city}_original.json"
 output_links = f"../original_data/{folder}/{portal}/{city}_links.csv"
 output_errors = f"../original_data/{folder}/{portal}/{city}_errors.json"
 
+phrase_to_search = "Mieszkania na wynajem"
+city_to_search = "Kraków"
+
 def main():
     innitials()
     early_steps()
