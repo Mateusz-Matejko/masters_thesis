@@ -19,7 +19,7 @@ all_listings = []
 errored_links = []
 all_links = set()
 
-folder = "collected_09_19"
+folder = "collected_10_04"
 portal = "otodom"
 city = "gda"
 
