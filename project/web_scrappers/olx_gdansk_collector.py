@@ -39,6 +39,12 @@ def main():
     
     # get actuall data
     print(f"To jest ilość linków: {len(all_links)}")
+    driver.get("google.com")
+    time.sleep(2)
+    all_links = [
+        "url": "https://www.olx.pl/d/oferta/apartament-na-wynajem-w-centrum-gdanska-dlugoterminowo-na-miesiac-CID3-IDVF5p1.html",
+        "url": "https://www.olx.pl/d/oferta/mieszkanie-2-pokojowe-do-wynajecia-gdansk-zabianka-CID3-IDIwZAJ.html"
+    ]
     for link in all_links:
         # open new window        
         main_chrome_tab = driver.current_window_handle
