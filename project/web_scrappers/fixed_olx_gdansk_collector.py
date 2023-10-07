@@ -31,13 +31,16 @@ city_to_search = "Gdańsk"
 
 def main():
     innitials()
-    early_steps()
+    # early_steps()
     
-    all_links = get_all_links()
-    save_collected_data(what="links")
+    # all_links = get_all_links()
+    # save_collected_data(what="links")
         
     time.sleep(3)
-    
+    all_links = [
+        "https://www.olx.pl/d/oferta/apartament-na-wynajem-w-centrum-gdanska-dlugoterminowo-na-miesiac-CID3-IDVF5p1.html",
+        # "https://www.olx.pl/d/oferta/mieszkanie-2-pokojowe-do-wynajecia-gdansk-zabianka-CID3-IDIwZAJ.html"
+    ]
     for link in all_links:
         # open new window        
         main_chrome_tab = driver.current_window_handle

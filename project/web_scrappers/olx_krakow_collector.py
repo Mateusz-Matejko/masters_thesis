@@ -174,37 +174,39 @@ def get_from_olx():
     listing_details = {}
     
     time.sleep(1)
-    # price of listing
-    price = driver.find_element(By.CLASS_NAME, "css-47bkj9")
-    listing_details["rent"] = price.text
-    
-    # location 
-    location = driver.find_element(By.CLASS_NAME, "css-1c0ed4l")
-    listing_details["location"] = location.text
-    
-    # username 
-    username_attr = driver.find_element(By.CLASS_NAME, "css-1fp4ipz")
-    username_attr = username_attr.text.split("\n")
-
-    listing_details["username"] = username_attr[1]
-    listing_details["on_olx_since"] = username_attr[2].lstrip("Na OLX od ")
-    listing_details["last_activity"] = username_attr[3]    
-    
-    # added date 
-    date_of_listing_add = driver.find_element(By.CLASS_NAME, "css-8mfr0h")
-    listing_details["add_date"] = date_of_listing_add.text.lstrip("Dodane")
-    
-    # title
-    title = driver.find_element(By.CLASS_NAME, "css-8mfr0h")
-    listing_details["title"] = title.text
     
     # link
     listing_details["link"] = driver.current_url
-
-    # description
-    description = driver.find_element(By.CLASS_NAME, "css-1m8mzwg")
-    listing_details["description"] = description.text.lstrip("OPIS\n")
     
+    # price of listing
+    if driver.find_element(By.CLASS_NAME, "css-2xjd3c"):
+        price = driver.find_element(By.CLASS_NAME, "css-2xjd3c")
+        listing_details["rent"] = price.text
+    
+    # location 
+    if driver.find_elements(By.CLASS_NAME, "css-16sja3n"):
+        locations = driver.find_element(By.CLASS_NAME, "css-16sja3n")
+        listing_details["location"] = locations.text
+
+    # username 
+    if driver.find_element(By.CLASS_NAME, "css-1fp4ipz"):
+        username_attr = driver.find_element(By.CLASS_NAME, "css-1fp4ipz")
+        username_attr = username_attr.text.split("\n")
+        listing_details["username"] = username_attr[1]
+        listing_details["on_olx_since"] = username_attr[2].lstrip("Na OLX od ")
+        listing_details["last_activity"] = username_attr[3]    
+    
+    # title
+    if driver.find_elements(By.CLASS_NAME, "css-z799oh"):
+        title = driver.find_elements(By.CLASS_NAME, "css-z799oh")
+        listing_details["add_date"] = title[0].text.lstrip("Dodane")
+        listing_details["title"] = title[1].text
+    
+    # description
+    if driver.find_element(By.CLASS_NAME, "css-1m8mzwg"):
+        description = driver.find_element(By.CLASS_NAME, "css-1m8mzwg")
+        listing_details["description"] = description.text.lstrip("OPIS\n")
+
     # other options
     options_element = driver.find_element(By.CLASS_NAME, "css-sfcl1s")
     option_list = options_element.text.split("\n")
@@ -219,6 +221,8 @@ def get_from_olx():
             
     time.sleep(1)
     
+    pprint.pprint(listing_details)
+    input("listing details here...")
     all_listings.append(listing_details)
 
 
