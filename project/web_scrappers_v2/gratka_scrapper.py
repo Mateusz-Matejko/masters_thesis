@@ -26,9 +26,9 @@ class GratkaScraper:
         self.portal = "gratka"
         self.city = city
         
-        self.output_data = config.path_generator(self.folder, self.portal, self.city, "original")
-        self.output_links = config.path_generator(self.folder, self.portal, self.city, "links")
-        self.output_errors = config.path_generator(self.folder, self.portal, self.city, "errors")
+        self.output_data = config.path_generator(self.folder, self.portal, self.city, "original", ending="json")
+        self.output_links = config.path_generator(self.folder, self.portal, self.city, "links", ending="csv")
+        self.output_errors = config.path_generator(self.folder, self.portal, self.city, "errors", ending="json")
         
         self.city_to_search = "gdansk" if self.city == "gda" else "krakow"
 

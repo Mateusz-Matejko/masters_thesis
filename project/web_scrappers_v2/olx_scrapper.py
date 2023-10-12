@@ -22,9 +22,10 @@ class OlxScrapper:
         self.portal = "olx"
         self.city = city
         
-        self.output_data = config.path_generator(self.folder, self.portal, self.city, "original")
-        self.output_links = config.path_generator(self.folder, self.portal, self.city, "links")
-        self.output_errors = config.path_generator(self.folder, self.portal, self.city, "errors")
+        self.output_data = config.path_generator(self.folder, self.portal, self.city, "original", ending="json")
+        self.output_links = config.path_generator(self.folder, self.portal, self.city, "links", ending="csv")
+        self.output_errors = config.path_generator(self.folder, self.portal, self.city, "errors", ending="json")
+        
         self.phrase_to_search = "Mieszkania na wynajem"
         self.city_to_search = "Gdańsk" if self.city == "gda" else "Kraków"
 
