@@ -3,10 +3,10 @@ import csv
 
 class Config:
     def __init__(self) -> None:
-        self.folder = "collected_10_04"
+        self.folder = "collected_10_11"
     
     def path_generator(self, folder, portal, city, path_type = "original", ending="json"):
-        return f"../original_data_2023/{portal}/{portal}/{city}_{path_type}.{ending}"
+        return f"../original_data_2023/{portal}/{folder}/{city}_{path_type}.{ending}"
         
     def save_collected_data(self, what="data"):
         if what == "data":

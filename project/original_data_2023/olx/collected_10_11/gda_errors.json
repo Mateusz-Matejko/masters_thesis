@@ -1,0 +1,10 @@
+[
+  {
+    "url": "https://www.olx.pl/d/oferta/mieszkanie-2-pokojowe-przymorze-CID3-IDVMaU1.html",
+    "excpetion": "list index out of range"
+  },
+  {
+    "url": "https://www.olx.pl/d/oferta/wynajem-mieszkania-CID3-IDVLbDh.html",
+    "excpetion": "Message: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".css-2xjd3c\"}\n  (Session info: chrome=117.0.5938.150); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nStacktrace:\n\tGetHandleVerifier [0x00007FF711977D12+55474]\n\t(No symbol) [0x00007FF7118E77C2]\n\t(No symbol) [0x00007FF71179E0EB]\n\t(No symbol) [0x00007FF7117DEBAC]\n\t(No symbol) [0x00007FF7117DED2C]\n\t(No symbol) [0x00007FF711819F77]\n\t(No symbol) [0x00007FF7117FF19F]\n\t(No symbol) [0x00007FF711817EF2]\n\t(No symbol) [0x00007FF7117FEF33]\n\t(No symbol) [0x00007FF7117D3D41]\n\t(No symbol) [0x00007FF7117D4F84]\n\tGetHandleVerifier [0x00007FF711CDB762+3609346]\n\tGetHandleVerifier [0x00007FF711D31A80+3962400]\n\tGetHandleVerifier [0x00007FF711D29F0F+3930799]\n\tGetHandleVerifier [0x00007FF711A13CA6+694342]\n\t(No symbol) [0x00007FF7118F2218]\n\t(No symbol) [0x00007FF7118EE484]\n\t(No symbol) [0x00007FF7118EE5B2]\n\t(No symbol) [0x00007FF7118DEE13]\n\tBaseThreadInitThunk [0x00007FFEDCEC257D+29]\n\tRtlUserThreadStart [0x00007FFEDE56AA78+40]\n"
+  }
+]

@@ -44,7 +44,7 @@ class GratkaScraper:
         progress_bar = tqdm(total=len(self.all_links), unit="link", unit_scale=True)
         for counter, link in enumerate(self.all_links, 1):
             try:
-                self.process_link(site_url=link)
+                self.process_link(link)
             except Exception as e:
                 # If not, save what actually happened
                 error_details = {
@@ -120,52 +120,9 @@ class GratkaScraper:
                 # Go to next page to collect links.
         return self.all_links
 
-    # def get_all_links(self):
-    #     counter = 1
-    #     while True:
-    #         time.sleep(2)
-    #         next_page = None
-    #         try:
-    #             if self.driver.find_element(By.CLASS_NAME, "pagination__nextPage").get_attribute("href"):
-    #                 next_page = self.driver.find_element(By.CLASS_NAME, "pagination__nextPage").get_attribute("href")
-    #             else:
-    #                 next_page = None
-    #         except NoSuchElementException:
-    #             pass
-
-    #         # Classify the links part of offers
-    #         offers = self.driver.find_elements(By.CLASS_NAME, "listing__teaserWrapper")
-    #         time.sleep(2)
-
-    #         # Find out the links
-    #         links_from_current_site = []
-    #         for offer in offers:
-    #             try:
-    #                 link = offer.find_element(By.CLASS_NAME, "teaserLink").get_attribute("href")
-    #                 if link.lstrip("http://")[:3] != "gra":
-    #                     continue
-    #                 links_from_current_site.append(link)
-    #                 self.all_links.add(link)
-    #             except NoSuchElementException:
-    #                 pass
-    #         print(f"Links on site {counter}: {len(links_from_current_site)}")
-    #         counter += 1
-
-    #         if not links_from_current_site:
-    #             input("No links got at the current site: ")
-
-    #         if next_page:
-    #             self.driver.get(next_page)
-    #             time.sleep(2)
-    #         else:
-    #             print("No more links to go to... \n I'm leaving this loop")
-    #             break
-
-    #     return self.all_links
-
-    def process_link(self, site_url):
+    def process_link(self, link):
         try:
-            response = requests.get(site_url)
+            response = requests.get(link)
             response.raise_for_status()
             html = response.text
             soup = BeautifulSoup(html, 'html.parser')
@@ -174,7 +131,7 @@ class GratkaScraper:
             return None
 
         listing_details = {}
-        listing_details['link'] = site_url
+        listing_details['link'] = link
 
         try:
             price_element = soup.find('div', class_='priceInfo')
@@ -258,9 +215,3 @@ class GratkaScraper:
     def finish(self):
         self.driver.quit()
 
-if __name__ == "__main__":
-    cities = ["gda", "krk"]
-
-    for city in cities:
-        collector = GratkaScraper(city)
-        collector.main()

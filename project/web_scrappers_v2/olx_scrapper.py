@@ -35,17 +35,18 @@ class OlxScrapper:
         self.innitials()
         self.early_steps()
         time.sleep(1)
-        self.all_links = self.get_all_links()
+        self.get_all_links()
         self.save_collected_data(what="links")
         
         progress_bar = tqdm(total=len(self.all_links), unit="link", unit_scale=True)
         for counter, link in enumerate(self.all_links, 1):
             try:
-                self.process_link(site_url=link)
+                self.process_link(link)
             except Exception as e:
                 # If not, save what actually happened
                 error_details = {
                     "url": link,
+                    "excpetion": str(e)
                 }
                 self.errored_links.append(error_details)
             if counter % 50 == 0:
@@ -203,10 +204,3 @@ class OlxScrapper:
         self.driver.quit()
         print("Success without failure :)")
         sys.exit()
-
-if __name__ == "__main__":
-    cities = ["gda", "krk"]
-
-    for city in cities:
-        collector = OlxScrapper(city)
-        collector.main()

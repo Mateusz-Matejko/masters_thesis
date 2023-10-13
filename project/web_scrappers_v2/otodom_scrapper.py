@@ -28,12 +28,16 @@ class OtodomScrapper:
         self.location_id = "rentPopularLocationGdansk" if self.city == "gda" else "rentPopularLocationKrakow"
         
     def main(self):
-        print(f"Rozpoczynam pracę scrappera portalu {self.portal} dla miasta {self.city}")
-        self.innitials()
-        self.early_steps()
-        self.all_links = self.get_all_links()
-        self.save_collected_data(what="links")
-        
+        try:
+            print(f"Rozpoczynam pracę scrappera portalu {self.portal} dla miasta {self.city}")
+            self.innitials()
+            self.early_steps()
+            self.all_links = self.get_all_links()
+            self.save_collected_data(what="links")
+        except Exception as e:
+            print(e)
+            input("Dupa")
+            
         progress_bar = tqdm(total=len(self.all_links), unit="link", unit_scale=True)
         for counter, link in enumerate(self.all_links, 1):
             self.process_link(link)
@@ -187,11 +191,3 @@ class OtodomScrapper:
     def finish(self):
         self.driver.quit()
         print("Success without failure :)")
-
-
-if __name__ == "__main__":
-    cities = ["gda", "krk"]
-    
-    for city in cities:
-        collector = OtodomCollector(city="gda")
-        collector.main()

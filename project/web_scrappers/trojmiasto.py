@@ -19,21 +19,21 @@ all_listings = []
 errored_links = []
 all_links = set()
 
-folder = "collected_10_04"
+folder = "collected_10_11"
 portal = "trojmiasto"
 city = "gda"
 
-output_data = f"../original_data/{folder}/{portal}/{city}_original.json"
-output_links = f"../original_data/{folder}/{portal}/{city}_links.csv"
-output_errors = f"../original_data/{folder}/{portal}/{city}_errors.json"
+output_data = f"../original_data_2023/{portal}/{folder}/{city}_original.json"
+output_links = f"../original_data_2023/{portal}/{folder}/{city}_links.csv"
+output_errors = f"../original_data_2023/{portal}/{folder}/{city}_errors.json"
 
 
 def main():
     innitials()
     early_steps()
     time.sleep(1)
+
     all_links = get_all_links()
-    driver.quit()
     
     save_collected_data(what="links")
     

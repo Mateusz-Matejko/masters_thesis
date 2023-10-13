@@ -41,7 +41,7 @@ class TrojmiastoScraper:
         progress_bar = tqdm(total=len(self.all_links), unit="link", unit_scale=True)
         for counter, link in enumerate(self.all_links, 1):
             try:
-                self.process_link(site_url=link)
+                self.process_link(link)
             except Exception as e:
                 error_details = {
                     "url": link,
@@ -154,9 +154,9 @@ class TrojmiastoScraper:
 
         return self.all_links
 
-    def process_link(self, site_url):
+    def process_link(self, link):
         try:
-            response = requests.get(site_url)
+            response = requests.get(link)
             response.raise_for_status()
             html = response.text
             soup = BeautifulSoup(html, 'html.parser')
@@ -165,7 +165,7 @@ class TrojmiastoScraper:
             return None
 
         listing_details = {}
-        listing_details['link'] = site_url
+        listing_details['link'] = link
 
         try:
             price_element = soup.find('div', class_='oglField--cena')
@@ -227,7 +227,4 @@ class TrojmiastoScraper:
     def finish(self):
         self.driver.quit()
 
-if __name__ == "__main__":
-    city = "gda"
-    collector = TrojmiastoScraper("gda")
-    collector.main()
+
