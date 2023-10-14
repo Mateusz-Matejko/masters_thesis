@@ -10,7 +10,7 @@ logging.basicConfig(filename='scraper.log', level=logging.ERROR, format='%(ascti
 def main():
     city = "krk"
     try:
-        scrapper = OtodomScrapper(city)
+        scrapper = TrojmiastoScraper(city)
         scrapper.main()
     except Exception as e:
         logging.error(f"Error collecting data from Otodom for {city}: {e}")

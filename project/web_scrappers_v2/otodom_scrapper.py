@@ -77,7 +77,7 @@ class OtodomScrapper:
         counter = 1
         while True:
             try:
-                time.sleep(1)
+                time.sleep(2)
                 next_page_button = self.driver.find_element(By.CSS_SELECTOR,
                                                             'button[aria-label="następna strona"][data-cy="pagination.next-page"]')
                 is_disabled = next_page_button.get_attribute('disabled')

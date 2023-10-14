@@ -117,6 +117,7 @@ class TrojmiastoScraper:
 
     def get_all_links(self):
         counter = 1
+        time.sleep(2)
         while True:
             time.sleep(2)
             next_page = None
@@ -143,6 +144,7 @@ class TrojmiastoScraper:
                     pass
             print(f"Links on site {counter}: {len(links_from_current_site)}")
             counter += 1
+            time.sleep(2)
 
             if not links_from_current_site:
                 input("No links got at current site: ")
@@ -150,6 +152,7 @@ class TrojmiastoScraper:
             if next_page:
                 next_page.click()
             else:
+                print("dupaaaa")
                 break
 
         return self.all_links
