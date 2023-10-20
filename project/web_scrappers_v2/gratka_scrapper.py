@@ -1,6 +1,7 @@
 import csv
 import json
 import time
+import sys
 
 from bs4 import BeautifulSoup
 import requests
@@ -214,4 +215,14 @@ class GratkaScraper:
 
     def finish(self):
         self.driver.quit()
+        print("Success without failure :)")
+        sys.exit()
 
+def main():
+    for town in ["krk", "gda"]:
+        scrapper = GratkaScraper(city=town)
+        scrapper.main()
+        time.sleep(10)
+    
+if __name__ == "__main__":
+    main()

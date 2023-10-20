@@ -3,7 +3,7 @@ import csv
 
 class Config:
     def __init__(self) -> None:
-        self.folder = "collected_10_11"
+        self.folder = "collected_10_18"
     
     def path_generator(self, folder, portal, city, path_type = "original", ending="json"):
         return f"../original_data_2023/{portal}/{folder}/{city}_{path_type}.{ending}"

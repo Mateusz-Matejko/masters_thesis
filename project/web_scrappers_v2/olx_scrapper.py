@@ -204,3 +204,14 @@ class OlxScrapper:
         self.driver.quit()
         print("Success without failure :)")
         sys.exit()
+        
+def main():
+    for town in ["krk", "gda"]:
+        scrapper = OlxScrapper(city=town)
+        scrapper.main()
+        scrapper.finish()
+        time.sleep(10)
+    
+if __name__ == "__main__":
+    main()
+

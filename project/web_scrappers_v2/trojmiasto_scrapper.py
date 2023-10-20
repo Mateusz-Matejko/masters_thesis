@@ -1,3 +1,4 @@
+import sys
 import csv
 import json
 import time
@@ -229,5 +230,15 @@ class TrojmiastoScraper:
 
     def finish(self):
         self.driver.quit()
-
+        print("Success without failure :)")
+        sys.exit()
+        
+        
+def main():
+    scrapper = TrojmiastoScraper(city="gda")
+    scrapper.main()
+    time.sleep(10)
+    
+if __name__ == "__main__":
+    main()
 
