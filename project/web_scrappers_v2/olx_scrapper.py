@@ -203,7 +203,6 @@ class OlxScrapper:
     def finish(self):
         self.driver.quit()
         print("Success without failure :)")
-        sys.exit()
         
 def main():
     for town in ["krk", "gda"]:
