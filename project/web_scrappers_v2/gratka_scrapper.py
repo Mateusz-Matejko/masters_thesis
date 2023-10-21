@@ -219,7 +219,7 @@ class GratkaScraper:
 
 
 def main():
-    for town in ["gda"]:
+    for town in ["gda", "krk"]:
         scrapper = GratkaScraper(city=town)
         scrapper.main()
         time.sleep(10)
