@@ -231,7 +231,6 @@ class TrojmiastoScraper:
     def finish(self):
         self.driver.quit()
         print("Success without failure :)")
-        sys.exit()
         
         
 def main():
