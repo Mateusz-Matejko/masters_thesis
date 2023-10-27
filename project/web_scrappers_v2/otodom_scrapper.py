@@ -8,23 +8,22 @@ from selenium.common.exceptions import NoSuchElementException
 from config import Config
 from tqdm import tqdm
 
-config = Config()
-
 class OtodomScrapper:
     def __init__(self, city):
-        self.driver = webdriver.Chrome()
+        self.config = Config()
+        self.driver = self.config.get_driver()
         
         self.all_listings = []
         self.errored_links = []
         self.all_links = set()
         
-        self.folder = config.folder
+        self.folder = self.config.folder
         self.portal = "otodom"
         self.city = city
         
-        self.output_data = config.path_generator(self.folder, self.portal, self.city, "original", ending="json")
-        self.output_links = config.path_generator(self.folder, self.portal, self.city, "links", ending="csv")
-        self.output_errors = config.path_generator(self.folder, self.portal, self.city, "errors", ending="json")
+        self.output_data = self.config.path_generator(self.folder, self.portal, self.city, "original", ending="json")
+        self.output_links = self.config.path_generator(self.folder, self.portal, self.city, "links", ending="csv")
+        self.output_errors = self.config.path_generator(self.folder, self.portal, self.city, "errors", ending="json")
         
         self.location_id = "rentPopularLocationGdansk" if self.city == "gda" else "rentPopularLocationKrakow"
         

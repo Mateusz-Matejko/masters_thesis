@@ -10,23 +10,22 @@ from selenium.common.exceptions import NoSuchElementException
 from tqdm import tqdm
 from config import Config
 
-config = Config()
-
 class TrojmiastoScraper:
     def __init__(self, city):
-        self.driver = webdriver.Chrome()
+        self.config = Config()
+        self.driver = self.config.get_driver()
         
         self.all_listings = []
         self.errored_links = []
         self.all_links = set()
         
-        self.folder = config.folder
+        self.folder = self.config.folder
         self.portal = "trojmiasto"
         self.city = "gda"
         
-        self.output_data = config.path_generator(self.folder, self.portal, self.city, "original", ending="json")
-        self.output_links = config.path_generator(self.folder, self.portal, self.city, "links", ending="csv")
-        self.output_errors = config.path_generator(self.folder, self.portal, self.city, "errors", ending="json")
+        self.output_data = self.config.path_generator(self.folder, self.portal, self.city, "original", ending="json")
+        self.output_links = self.config.path_generator(self.folder, self.portal, self.city, "links", ending="csv")
+        self.output_errors = self.config.path_generator(self.folder, self.portal, self.city, "errors", ending="json")
         
         self.city_to_search = "gdansk" if self.city == "gda" else input("WRONG CITY TO SEARCH")
 

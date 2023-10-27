@@ -1,9 +1,20 @@
 import json
 import csv
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 class Config:
     def __init__(self) -> None:
-        self.folder = "collected_10_18"
+        self.folder = "collected_10_25"
+        self.path_to_chrome = ""
+    
+    def get_driver(self):
+        options = Options()
+        options.add_argument('--ignore-certificate-errors')
+        options.add_argument('--ignore-ssl-errors')
+
+        driver = webdriver.Chrome(options=options)
+        return driver
     
     def path_generator(self, folder, portal, city, path_type = "original", ending="json"):
         return f"../original_data_2023/{portal}/{folder}/{city}_{path_type}.{ending}"
