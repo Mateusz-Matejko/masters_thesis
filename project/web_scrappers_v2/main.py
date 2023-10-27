@@ -8,7 +8,7 @@ from trojmiasto_scrapper import main as trojmiasto
 logging.basicConfig(filename='scraper.log', level=logging.ERROR, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 def main():
-    for scirpt in [gratka, olx, otodom, trojmiasto]:
+    for scirpt in [otodom]:
         try:
             scirpt()
         except Exception as e:
