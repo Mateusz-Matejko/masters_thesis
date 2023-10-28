@@ -2,12 +2,18 @@ import json
 import csv
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import os
 
 class Config:
     def __init__(self) -> None:
         self.folder = "collected_10_25"
-        self.path_to_chrome = ""
     
+        for data_portal in ['otodom', 'trojmiasto', 'olx', 'gratka']:
+            folder_path = f'../original_data_2023/{data_portal}/{self.folder}'
+            if not os.path.exists(folder_path):
+                os.mkdir(folder_path)
+
+
     def get_driver(self):
         options = Options()
         options.add_argument('--ignore-certificate-errors')

@@ -152,7 +152,6 @@ class TrojmiastoScraper:
             if next_page:
                 next_page.click()
             else:
-                print("dupaaaa")
                 break
 
         return self.all_links

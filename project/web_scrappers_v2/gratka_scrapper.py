@@ -2,34 +2,31 @@ import csv
 import json
 import time
 import sys
-
 from bs4 import BeautifulSoup
 import requests
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-
 from config import Config
 from tqdm import tqdm
 
-config = Config()
 
 class GratkaScraper:
     def __init__(self, city):
+        self.config = Config()
         self.driver = webdriver.Chrome()
         
         self.all_listings = []
         self.errored_links = []
         self.all_links = set()
         
-        self.folder = config.folder
+        self.folder = self.config.folder
         self.portal = "gratka"
         self.city = city
         
-        self.output_data = config.path_generator(self.folder, self.portal, self.city, "original", ending="json")
-        self.output_links = config.path_generator(self.folder, self.portal, self.city, "links", ending="csv")
-        self.output_errors = config.path_generator(self.folder, self.portal, self.city, "errors", ending="json")
+        self.output_data = self.config.path_generator(self.folder, self.portal, self.city, "original", ending="json")
+        self.output_links = self.config.path_generator(self.folder, self.portal, self.city, "links", ending="csv")
+        self.output_errors = self.config.path_generator(self.folder, self.portal, self.city, "errors", ending="json")
         
         self.city_to_search = "gdansk" if self.city == "gda" else "krakow"
 
