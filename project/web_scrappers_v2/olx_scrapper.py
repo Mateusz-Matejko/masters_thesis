@@ -8,23 +8,22 @@ from selenium.webdriver.common.by import By
 from config import Config
 from tqdm import tqdm
 
-config = Config()
-
 class OlxScrapper:
     def __init__(self, city):
+        self.config = Config()
         self.driver = webdriver.Chrome()
         
         self.all_listings = []
         self.errored_links = []
         self.all_links = set()
         
-        self.folder = config.folder
+        self.folder = self.config.folder
         self.portal = "olx"
         self.city = city
         
-        self.output_data = config.path_generator(self.folder, self.portal, self.city, "original", ending="json")
-        self.output_links = config.path_generator(self.folder, self.portal, self.city, "links", ending="csv")
-        self.output_errors = config.path_generator(self.folder, self.portal, self.city, "errors", ending="json")
+        self.output_data = self.config.path_generator(self.folder, self.portal, self.city, "original", ending="json")
+        self.output_links = self.config.path_generator(self.folder, self.portal, self.city, "links", ending="csv")
+        self.output_errors = self.config.path_generator(self.folder, self.portal, self.city, "errors", ending="json")
         
         self.phrase_to_search = "Mieszkania na wynajem"
         self.city_to_search = "Gdańsk" if self.city == "gda" else "Kraków"

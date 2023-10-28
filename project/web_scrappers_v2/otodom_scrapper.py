@@ -194,7 +194,7 @@ class OtodomScrapper:
         
         
 def main():
-    for town in ["krk", "gda"]:
+    for town in ["gda", "krk"]:
         scrapper = OtodomScrapper(city=town)
         scrapper.main()
         time.sleep(10)
