@@ -70,7 +70,7 @@ class OlxScrapper:
 
     def innitials(self):
         self.driver.get("https://olx.pl")
-        time.sleep(2)
+        time.sleep(5)
         cookies = self.driver.find_element(By.ID, "onetrust-accept-btn-handler")
         try:
             cookies.click()

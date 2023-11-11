@@ -5,7 +5,7 @@ from otodom_scrapper import main as otodom
 from trojmiasto_scrapper import main as trojmiasto
 
 def main():
-    for scirpt in [gratka, olx, otodom, trojmiasto]:
+    for scirpt in [olx, gratka, otodom, trojmiasto]:
         try:
             scirpt()
         except Exception as e:
