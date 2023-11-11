@@ -52,7 +52,7 @@ class OtodomScrapper:
 
     def innitials(self):
         self.driver.get("https://otodom.pl")
-        time.sleep(2)
+        time.sleep(5)
 
     def early_steps(self):
         cookies = self.driver.find_element(By.ID, "onetrust-accept-btn-handler")
