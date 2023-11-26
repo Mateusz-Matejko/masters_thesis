@@ -11,7 +11,7 @@ from tqdm import tqdm
 class OlxScrapper:
     def __init__(self, city):
         self.config = Config()
-        self.driver = webdriver.Chrome()
+        self.driver = self.config.get_driver()
         
         self.all_listings = []
         self.errored_links = []
