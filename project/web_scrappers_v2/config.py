@@ -6,7 +6,7 @@ import os
 
 class Config:
     def __init__(self) -> None:
-        self.folder = "collected_11_11"
+        self.folder = "collected_11_28"
     
         for data_portal in ['otodom', 'trojmiasto', 'olx', 'gratka']:
             folder_path = f'../original_data_2023/{data_portal}/{self.folder}'
@@ -18,8 +18,7 @@ class Config:
         options = Options()
         options.add_argument('--ignore-certificate-errors')
         options.add_argument('--ignore-ssl-errors')
-        options.add_argument("--window-size=3440,1440")
-
+        options.add_argument("--window-size=2560,1440")
 
         driver = webdriver.Chrome(options=options)
         return driver
