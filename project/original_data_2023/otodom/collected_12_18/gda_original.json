@@ -1,0 +1,30 @@
+[
+  {
+    "link": "https://www.otodom.pl/pl/oferta/mieszkanie-kowale-ID4omZg",
+    "address": "ul. Zefira, Kowale, Kolbudy, gda\u0144ski, pomorskie",
+    "title": "Mieszkanie - Kowale",
+    "price": "2 100 z\u0142",
+    "surface": null,
+    "rent_extra": null,
+    "rooms": null,
+    "deposit": null,
+    "floor": null,
+    "building_type": null,
+    "avilable_since": null,
+    "outside_are": null
+  },
+  {
+    "link": "https://www.otodom.pl/pl/oferta/mieszkanie-dwupokojowe-bez-czynszu-gdansk-brzezno-ID4omXw",
+    "address": "ul. Gda\u0144ska 19, Brze\u017ano, Gda\u0144sk, pomorskie",
+    "title": "mieszkanie dwupokojowe bez czynszu Gda\u0144sk Brze\u017ano",
+    "price": "2 700 z\u0142",
+    "surface": null,
+    "rent_extra": null,
+    "rooms": null,
+    "deposit": null,
+    "floor": null,
+    "building_type": null,
+    "avilable_since": null,
+    "outside_are": null
+  }
+]

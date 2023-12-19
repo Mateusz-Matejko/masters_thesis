@@ -70,50 +70,50 @@ class TrojmiastoScraper:
         except:
             pass
         
-    def get_all_links(self):
-        counter = 1
-        while True:
-            time.sleep(2)
-            next_page = None
+    # def get_all_links(self):
+    #     counter = 1
+    #     while True:
+    #         time.sleep(2)
+    #         next_page = None
             
-            try:
-                if self.driver.find_element(By.CLASS_NAME, 'pages__controls__next'):
-                    next_page = self.driver.find_element(By.CLASS_NAME, 'pages__controls__next')
-                else:
-                    next_page = None
+    #         try:
+    #             if self.driver.find_element(By.CLASS_NAME, 'pages__controls__next'):
+    #                 next_page = self.driver.find_element(By.CLASS_NAME, 'pages__controls__next')
+    #             else:
+    #                 next_page = None
                     
-            except Exception as e:
-                pass
+    #         except Exception as e:
+    #             pass
 
-            # classify the link part of offers
-            offers = self.driver.find_elements(By.CLASS_NAME, "list__item__picture")
-            time.sleep(2)
+    #         # classify the link part of offers
+    #         offers = self.driver.find_elements(By.CLASS_NAME, "list__item__picture")
+    #         time.sleep(2)
             
-            # find out the links
-            links_from_current_site = []
-            for offer in offers:
-                try:
-                    link = offer.find_element(By.CLASS_NAME, "listItemFirstPhoto").get_attribute("href")
-                    if link.lstrip("hhtps://")[:3] != "ogl":
-                        continue
-                    links_from_current_site.append(link)
-                    self.all_links.add(link)
-                except:
-                    pass
-            print(f"Links on site {counter}: {len(links_from_current_site)}")
-            counter += 1
+    #         # find out the links
+    #         links_from_current_site = []
+    #         for offer in offers:
+    #             try:
+    #                 link = offer.find_element(By.CLASS_NAME, "listItemFirstPhoto").get_attribute("href")
+    #                 if link.lstrip("hhtps://")[:3] != "ogl":
+    #                     continue
+    #                 links_from_current_site.append(link)
+    #                 self.all_links.add(link)
+    #             except:
+    #                 pass
+    #         print(f"Links on site {counter}: {len(links_from_current_site)}")
+    #         counter += 1
 
-            if not links_from_current_site:
-                input("No links got at current site: ")
+    #         if not links_from_current_site:
+    #             input("No links got at current site: ")
             
-            if next_page:
-                next_page.click()
+    #         if next_page:
+    #             next_page.click()
 
-            else:
-                break
-                # Go to next page to collect links.
+    #         else:
+    #             break
+    #             # Go to next page to collect links.
 
-        return self.all_links
+    #     return self.all_links
 
     def get_all_links(self):
         counter = 1

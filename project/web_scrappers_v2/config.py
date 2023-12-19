@@ -6,7 +6,7 @@ import os
 
 class Config:
     def __init__(self) -> None:
-        self.folder = "collected_11_28"
+        self.folder = "collected_12_05"
     
         for data_portal in ['otodom', 'trojmiasto', 'olx', 'gratka']:
             folder_path = f'../original_data_2023/{data_portal}/{self.folder}'

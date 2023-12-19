@@ -190,7 +190,7 @@ class GratkaScraper:
                     pass
         except AttributeError:
             pass
-
+        
         self.all_listings.append(listing_details)
 
     def save_collected_data(self, what="data"):

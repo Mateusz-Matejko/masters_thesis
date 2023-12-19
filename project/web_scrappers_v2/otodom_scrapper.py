@@ -152,22 +152,23 @@ class OtodomScrapper:
             listing_details['title'] = None
             listing_details['price'] = None
 
-        def extract_data(label):
+        def extract_data(item_id):
             try:
-                element = self.driver.find_element(By.XPATH, f"//div[@aria-label='{label}']//div[@class='css-1wi2w6s enb64yk4']")
-                return element.text
+                element = self.driver.find_element(By.XPATH, f'//*[@id="__next"]/main/div[2]/div[2]/div[1]/div/div[{item_id}]/div[2]/div')
+                return element.text.strip()
             except:
                 return None
 
-        listing_details["surface"] = extract_data('Powierzchnia')
-        listing_details['rent_extra'] = extract_data('Czynsz')
-        listing_details['rooms'] = extract_data('Liczba pokoi')
-        listing_details['deposit'] = extract_data('Kaucja')
-        listing_details['floor'] = extract_data('Piętro')
-        listing_details['building_type'] = extract_data('Rodzaj zabudowy')
-        listing_details['avilable_since'] = extract_data('Dostępne od')
-        listing_details['outside_are'] = extract_data('Balkon / ogród / taras')
+        listing_details["surface"] = extract_data(1)
+        listing_details['rent_extra'] = extract_data(2)
+        listing_details['rooms'] = extract_data(3)
+        listing_details['deposit'] = extract_data(4)
+        listing_details['floor'] = extract_data(5)
+        listing_details['building_type'] = extract_data(6)
+        listing_details['avilable_since'] = extract_data(7)
+        listing_details['outside_are'] = extract_data(8)
         time.sleep(1)
+
         self.all_listings.append(listing_details)
 
     def save_collected_data(self, what="data"):

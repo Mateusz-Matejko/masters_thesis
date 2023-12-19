@@ -7,6 +7,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from config import Config
 from tqdm import tqdm
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class OlxScrapper:
     def __init__(self, city):
@@ -58,6 +60,7 @@ class OlxScrapper:
         self.finish()
         
     def process_link(self, link):
+
         main_chrome_tab = self.driver.current_window_handle
         self.driver.switch_to.new_window()
         time.sleep(1)
@@ -72,6 +75,7 @@ class OlxScrapper:
         self.driver.get("https://olx.pl")
         time.sleep(5)
         cookies = self.driver.find_element(By.ID, "onetrust-accept-btn-handler")
+        time.sleep(2)
         try:
             cookies.click()
             time.sleep(1)
@@ -79,16 +83,15 @@ class OlxScrapper:
             pass
 
     def early_steps(self):
-        search = self.driver.find_element(By.NAME, "q")
+        search = self.driver.find_element(By.ID, "search")
         search.send_keys(self.phrase_to_search)
         time.sleep(2)
-        search_by_category = self.driver.find_element(By.CLASS_NAME, "c000")
+        search.click()
+        time.sleep(1)
+        search_by_category = self.driver.find_element(By.XPATH, '//*[@id="searchmain-container"]/div[1]/div/div/div/form/div/div[1]/div/div/div[2]/div/div[1]')
         search_by_category.click()
         time.sleep(2)
-        renting_category = self.driver.find_element(By.CLASS_NAME, "css-1bdi9t1")
-        renting_category.click()
-        time.sleep(3)
-        city = self.driver.find_element(By.CLASS_NAME, "css-uvldze")
+        city = self.driver.find_element(By.ID, 'location-input')
         city.click()
         time.sleep(1)
         city.send_keys(self.city_to_search)
@@ -144,29 +147,25 @@ class OlxScrapper:
         time.sleep(1)
         listing_details["link"] = self.driver.current_url
 
-        if self.driver.find_element(By.CLASS_NAME, "css-2xjd3c"):
-            price = self.driver.find_element(By.CLASS_NAME, "css-2xjd3c")
-            listing_details["rent"] = price.text
+        if self.driver.find_element(By.XPATH, '//*[@id="mainContent"]/div[2]/div[3]/div[1]/div[2]/div[3]'):
+            price = self.driver.find_element(By.XPATH, '//*[@id="mainContent"]/div[2]/div[3]/div[1]/div[2]/div[3]')
+            listing_details["rent"] = price.text.strip()
 
-        if self.driver.find_elements(By.CLASS_NAME, "css-16sja3n"):
-            locations = self.driver.find_element(By.CLASS_NAME, "css-16sja3n")
-            listing_details["location"] = locations.text
+        if self.driver.find_elements(By.XPATH,'//*[@id="mainContent"]/div[2]/div[3]/div[2]/div[2]/div/section/div[1]/div/p[1]'):
+            locations = self.driver.find_element(By.XPATH,'//*[@id="mainContent"]/div[2]/div[3]/div[2]/div[2]/div/section/div[1]/div/p[1]')
+            listing_details["location"] = locations.text.strip()
 
-        if self.driver.find_element(By.CLASS_NAME, "css-1fp4ipz"):
-            username_attr = self.driver.find_element(By.CLASS_NAME, "css-1fp4ipz")
-            username_attr = username_attr.text.split("\n")
-            listing_details["username"] = username_attr[1]
-            listing_details["on_olx_since"] = username_attr[2].lstrip("Na OLX od ")
-            listing_details["last_activity"] = username_attr[3]
+        if self.driver.find_elements(By.XPATH,'//*[@id="mainContent"]/div[2]/div[3]/div[1]/div[2]/div[2]/h4'):
+            title = self.driver.find_element(By.XPATH,'//*[@id="mainContent"]/div[2]/div[3]/div[1]/div[2]/div[2]/h4')
+            listing_details["title"] = title.text.strip()
 
-        if self.driver.find_elements(By.CLASS_NAME, "css-z799oh"):
-            title = self.driver.find_elements(By.CLASS_NAME, "css-z799oh")
-            listing_details["add_date"] = title[0].text.lstrip("Dodane")
-            listing_details["title"] = title[1].text
+        if self.driver.find_elements(By.XPATH,'//*[@id="mainContent"]/div[2]/div[3]/div[1]/div[2]/div[1]/span/span'):
+            add_date = self.driver.find_element(By.XPATH,'//*[@id="mainContent"]/div[2]/div[3]/div[1]/div[2]/div[1]/span/span')
+            listing_details["add_date"] = add_date.text.strip()
 
-        if self.driver.find_element(By.CLASS_NAME, "css-1m8mzwg"):
-            description = self.driver.find_element(By.CLASS_NAME, "css-1m8mzwg")
-            listing_details["description"] = description.text.lstrip("OPIS\n")
+        if self.driver.find_elements(By.XPATH,'//*[@id="mainContent"]/div[2]/div[3]/div[1]/div[2]/div[8]/div'):
+            description = self.driver.find_element(By.XPATH,'//*[@id="mainContent"]/div[2]/div[3]/div[1]/div[2]/div[8]/div')
+            listing_details["description"] = description.text.strip()
 
         options_element = self.driver.find_element(By.CLASS_NAME, "css-sfcl1s")
         option_list = options_element.text.split("\n")
